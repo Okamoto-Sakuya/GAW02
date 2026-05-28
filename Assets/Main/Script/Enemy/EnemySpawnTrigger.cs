@@ -1,34 +1,33 @@
 using UnityEngine;
 
-public class EnemySpawnTrigger : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public int spawnCount = 3;
-    public float spawnRange = 5f;
+    public Transform[] spawnPoints;
+    public float spawnInterval = 3f;
 
-    private bool hasSpawned = false;
+    private float timer;
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player"))
+        timer += Time.deltaTime;
+
+        if (timer >= spawnInterval)
         {
-            SpawnEnemies();
+            Spawn();
+            timer = 0f;
         }
     }
 
-    void SpawnEnemies()
+    void Spawn()
     {
-        for (int i = 0; i < spawnCount; i++)
-        {
-            Vector3 offset = new Vector3(
-                Random.Range(-spawnRange, spawnRange),
-                0,
-                Random.Range(-spawnRange, spawnRange)
-            );
+        if (spawnPoints.Length == 0) return;
 
-            Vector3 spawnPos = transform.position + offset;
+        Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-            Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-        }
+        GameObject enemyObj = Instantiate(enemyPrefab, point.position, point.rotation);
+
+        Enemy enemy = enemyObj.GetComponent<Enemy>();
+        enemy.player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }

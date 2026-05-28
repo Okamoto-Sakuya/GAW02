@@ -48,6 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a67f249ec7301499e3054e869c88c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  hp: 3
+  player: {fileID: 0}
+  moveSpeed: 3
+  attackRange: 1.5
+  damage: 1
+  attackCooldown: 1
 --- !u!33 &8479401979358043376
 MeshFilter:
   m_ObjectHideFlags: 0

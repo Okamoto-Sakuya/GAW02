@@ -9,6 +9,14 @@ public class MouseLook : MonoBehaviour
     float xRotation = 0f;
     private Vector2 lookInput;
 
+    private Quaternion initialCameraRotation;
+
+    void Start()
+    {
+        // ƒJƒƒ‰‚Ì‰Šú‰ñ“]‚ğ•Û‘¶
+        initialCameraRotation = transform.localRotation;
+    }
+
     void Update()
     {
         float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
@@ -17,7 +25,9 @@ public class MouseLook : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        // ‰Šú‰ñ“] + ƒ}ƒEƒX‰ñ“]
+        transform.localRotation = initialCameraRotation * Quaternion.Euler(xRotation, 0f, 0f);
+
         playerBody.Rotate(Vector3.up * mouseX);
     }
 
